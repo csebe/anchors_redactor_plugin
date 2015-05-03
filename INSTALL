@@ -1,0 +1,34 @@
+Here is how to make this Redactor Plugin work under the C5.7.4RC2:
+
+OPTION 1 
+--------
+(A bit more difficult to follow, but safer):
+
+1. Create override for redactor.js 
+- copy /concrete/js/redactor.js to /application/js/redactor.js 
+- prettify /application/js/redactor.js (e.g. http://www.jspretty.com/ )
+- in the /application/js/redactor.js:
+-- search for the first occurence of "insert_character" and add a new line after it like: 
+insert_anchor: "Insert Anchor",
+-- go to the end of file and append there the content of anchors.js from github here
+
+2. Create override for Concrete5 configuration
+- copy /concrete/config/concrete.php to /application/config/concrete.php 
+- modify /application/config/config.php to include new plugin name in the plugins->selected array:
+-- search for "specialcharacters" and add another element to that array, named 'anchors'
+
+3. Modify directly /concrete/src/Editor/RedactorEditor.php 
+- in the constructor add this plugin registration (search for "specialcharacters" and add after it):
+$this->pluginManager->register('anchors', t('Anchors')); 
+
+
+OPTION 2 
+--------
+(Easier to follow but dangerous if your C5 is customized already (in other words, you can do this safely only in
+a fresh C5.7.4RC2 install).   
+
+1. Create /application/js/redactor.js using the file in github here
+
+2. Create /application/config/concrete.php using the file in github here
+
+3. Replace /concrete/src/Editor/RedactorEditor.php with the file in github here
