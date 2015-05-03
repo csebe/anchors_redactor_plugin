@@ -7,8 +7,9 @@ Here is how to make this Redactor Plugin work under the C5.7.4RC2:
 -- search for the first occurence of "insert_character" and add a new line after it like: 
 insert_anchor: "Insert Anchor",
 -- go to the end of file and append there the content of anchors.js from github here
-ALTERNATIVELY (BUT DO THIS SAFELY ONLY IF FILE NOT ALREADY OVERRIDEN), just add or replace the /application/js/redactor.js
-with the one in github here.
+
+ALTERNATIVE TO ALL steps until here (BUT DO THIS SAFELY ONLY IF FILE NOT ALREADY OVERRIDEN): just add/replace the 
+/application/js/redactor.js with the one downloaded from github here.
 
 2. Create override for Concrete5 configuration
 - copy /concrete/config/concrete.php to /application/config/concrete.php 
