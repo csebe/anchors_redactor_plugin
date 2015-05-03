@@ -1,7 +1,7 @@
 # anchors_redactor_plugin
 Redactor plugin to create anchors inside the edited text (version 10 of Redactor and tested on Concrete5.7.4RC2).
 
-Please follow the INSTALL to add/register/enable the plugin in C5. Then, a new button having an anchor on it, should appear in Redactor. See attached screenshots too.
+Please follow the INSTALL to add/register/enable the plugin in C5. Then, a new button having an anchor on it, should appear in Redactor. See screenshots [here](/issues/1)
 
 Usage/Features:
 - calculates anchor names from the selected text (if any text is selected), in the format of url slugs
