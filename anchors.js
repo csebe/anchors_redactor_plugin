@@ -1,19 +1,24 @@
 /*
  Anchor Insertion/Automatic insertion/TOC generation Plugin for Redactor
-
+ 
  Plugin to insert anchors, for version 10+ of Redactor Text Editor (http://imperavi.com/redactor/)
  Tested in Concrete 5.7.4RC2
-
+ 
  Usage:
  See INSTALL document
  Requires font-awesome to be available (for icon button)
-
+ 
  Author - csebe
  Based on the Special Characters Redactor plugin by Mesuva (Ryan Hewitt - www.mesuva.com.au)
+ Features & code contributions:
+ KarlDilkington 
+
  Released under GPLv3 license
 */
 
+//Anchors Plugin
 RedactorPlugins.anchors = function() {
+    var showAnchorsFlag = 0; //used to indicate if show anchors button should be active.
     return {
         init: function() { // Redactor/plugin initialization
             var a = this.button.addAfter("special-character-button", "anchors-button", this.lang.get("manage_anchors"));
@@ -24,11 +29,16 @@ RedactorPlugins.anchors = function() {
 		a += 'Anchor name: <input type="text" class="anchor-name-input" value="'+this.selection.getText()+'">&nbsp;';
 		a += '<a class="anchor-level-select" href="#">Insert Anchor</a><br/><br/>';
         a += '<a class="anchor-headers-generate" href="#">Generate anchors (for H1...H6)</a>&nbsp;&nbsp;&nbsp;';
-        a += '<a class="anchor-toc-generate" href="#">Generate TOC</a>';
+        if (showAnchorsFlag == 0) {
+            a += '<a class="anchor-show" href="#">Show anchors</a>&nbsp;&nbsp;&nbsp;';
+        } 
+        else {
+            a += '<font color="lightgrey">Show anchors </font>&nbsp;&nbsp;&nbsp;';
+        }
+        a += '<a class="anchor-toc-generate" href="#">Generate TOC</a><br/><br/>';
+        a += '<a class="anchor-delete-all" href="#">Delete all anchors</a>&nbsp;&nbsp;&nbsp;';
 		a += "</section>\n";
 		a += "<style>.anchor-level-select {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; color: black; text-decoration: none; font-size: 1.4em;  text-align: center; border: 1px solid #EEE; display: inline-block; margin-bottom: 0.2em; } .anchor-level-select:hover {color: white; background-color: black}</style>\n";
-		a += "<style>.anchor-headers-generate {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; color: black; text-decoration: none; font-size: 1.4em;  text-align: center; border: 1px solid #EEE; display: inline-block; margin-bottom: 0.2em; } .anchor-level-select:hover {color: white; background-color: black}</style>\n";
-		a += "<style>.anchor-toc-generate {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; color: black; text-decoration: none; font-size: 1.4em;  text-align: center; border: 1px solid #EEE; display: inline-block; margin-bottom: 0.2em; } .anchor-level-select:hover {color: white; background-color: black}</style>\n";
 		return a
         },
         show: function() {// display the modal window
@@ -36,6 +46,8 @@ RedactorPlugins.anchors = function() {
             var a = this.anchors.insert;
             var b = this.anchors.generate;
             var c = this.anchors.toc_generate;
+            var d = this.anchors.showanchors;
+            var e = this.anchors.deleteanchors;
             $(".anchor-level-select").on("click", function() {
                 return $(this).addClass("anchor-level-selected"), a(), !1
             });
@@ -44,6 +56,12 @@ RedactorPlugins.anchors = function() {
             });
             $(".anchor-toc-generate").on("click", function() {
                 return $(this).addClass("anchor-toc"), c(), !1
+            });
+            $(".anchor-show").on("click", function() {
+                return $(this).addClass("anchor-show"), d(), !1
+            });
+            $(".anchor-delete-all").on("click", function() {
+                return $(this).addClass("anchor-delete"), e(), !1
             });
         },
         insert: function() {// manually insert anchors
@@ -117,6 +135,21 @@ RedactorPlugins.anchors = function() {
             $(tempDom).remove();
 
             this.modal.close(), this.insert.htmlWithoutClean(tocHtml), this.code.sync(), this.buffer.set()
-        }
+        },
+        showanchors: function() { //show anchors in edit mode (thanks to Karl Dilkington for the idea and css input) 
+            $("<style type='text/css'>.anchors:before {content: \"\\f13d\";font: normal normal normal 14px/1 FontAwesome;padding-right: 5px;}</style>").appendTo("head");
+            showAnchorsFlag=1;
+            this.modal.close(), this.code.sync(), this.buffer.set()
+        },
+        deleteanchors: function() { //delete all anchors
+            var tempDom = $('<output>').append($.parseHTML(this.code.get()));
+            $.each( $('.anchors', tempDom), function() {
+                $(this).remove();
+            });
+            this.code.set( $(tempDom).html() );
+            $(tempDom).remove();
+
+            this.modal.close(), this.code.sync(), this.buffer.set()
+        },
     }
 };
