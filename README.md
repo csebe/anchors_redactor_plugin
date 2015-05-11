@@ -18,11 +18,12 @@ Usage/Features:
 - adds anchors at the start of the current paragraph (be it P, H1, H2...)
 - allows auto generating anchors from all H1,H2...H6 tags found in the text. It generates automatically the anchor names.
 - allows generating a very basic table of contents, based on all found anchors.
+- indicates visually where anchors created with this addon (class="anchors") are in text (Thanks to Karl Dilkington for contribution)
+- allows deletion of all anchors created using this addon (class="anchors"), to start anew.
 
 Limitations/Issues:
 - Was not tested in complex HTML, like one that is copy/pasted from Word for example. It was tested only clean HTML. However, Redactor is cleaning any copy/pasted html from Word by default, so we should be safe.
-- Doesn't indicate visually that an anchor is present in the text (in "normal" view mode). TBD if Redactor offers a solution for this.
-- Doesn't allow modifying existing anchors in GUI, just blindly adding new ones. For any modification or deletion, the HTML view should be used.
+- Doesn't allow modifying existing anchors in GUI, just blindly adding new ones. For any modification, the HTML view should be used.
 - It adds an empty <span></span> each time it is used without any pre-selected text. This is probably inoffensive but a bit annoying.
 - there is no automatic registering in Concrete 5.7, it needs altering some files manually.
 - the TOC indentation is really ugly... I have tried with &nbsp; only, but by default Redactor eliminates multiple &nbsps at saving time, so it was destroyiung the "tree" like structure.
