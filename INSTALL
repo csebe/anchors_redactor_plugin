@@ -5,7 +5,7 @@ Here is how to make this Redactor Plugin work under the C5.7.4RC2:
 - prettify /application/js/redactor.js (e.g. http://www.jspretty.com/ )
 - in the /application/js/redactor.js:
 -- search for the first occurence of "insert_character" and add a new line after it like: 
-insert_anchor: "Insert Anchor",
+manage_anchors: "Anchors",
 -- go to the end of file and append there the content of anchors.js from github here
 
 ALTERNATIVE TO ALL steps until here (BUT DO THIS SAFELY ONLY IF FILE NOT ALREADY OVERRIDEN): just add/replace the 
